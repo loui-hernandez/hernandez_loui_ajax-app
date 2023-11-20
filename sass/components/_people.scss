@@ -1,0 +1,28 @@
+#people-con {
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+}
+
+#people-con ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#people-con ul li{
+    padding: 1rem;
+    margin: 1rem;
+}
+
+#people-con ul li:nth-child(odd) {
+    background-color: beige;
+}
+
+#people-con ul li img {
+    float: left;
+    margin-right: 1rem;
+}
+
+// #people-con spinner {
+//     max-width: 1rem;
+// }
