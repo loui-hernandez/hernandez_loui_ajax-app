@@ -1,14 +1,15 @@
 (() => {
-
   // variables
   const model = document.querySelector("#model");
   const hotspots = document.querySelectorAll(".Hotspot");
-
   const materialTemplate = document.querySelector("#material-template");
   const materialList = document.querySelector("#material-list");
-  const materialInfo = document.querySelectorAll(".material-info"); // Use querySelectorAll for selecting multiple elements
-
-  let spinner = `<svg width="512" height="512" viewBox="0 0 512 512" style="color:#E4AB00" xmlns="http://www.w3.org/2000/svg" class="h-full w-full"><rect width="512" height="512" x="0" y="0" rx="30" fill="transparent" stroke="transparent" stroke-width="0" stroke-opacity="100%" paint-order="stroke"></rect><svg width="256px" height="256px" viewBox="0 0 24 24" fill="#E4AB00" x="128" y="128" role="img" style="display:inline-block;vertical-align:middle" xmlns="http://www.w3.org/2000/svg"><g fill="#E4AB00"><path fill="currentColor" d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></svg>`;
+  const materialInfo = document.querySelectorAll(".material-info");
+  let spinner = `<svg width="512" height="512" viewBox="0 0 512 512" style="color:#E4AB00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <path fill="none" stroke="#000000" stroke-width="8" stroke-dasharray="179.61224975585938 76.97667846679687" d="M24.3 30C11.4 30 5 43.3 5 50s6.4 20 19.3 20c19.3 0 32.1-40 51.4-40 C88.6 30 95 43.3 95 50s-6.4 20-19.3 20C56.4 70 43.6 30 24.3 30z" stroke-linecap="round" style="transform:scale(0.6);transform-origin:50px 50px">
+      <animate attributeName="stroke-dashoffset" repeatCount="indefinite" dur="1.25s" keyTimes="0;1" values="0;256.58892822265625"></animate>
+    </path>
+  </svg>`;
 
   // functions
   function modelLoaded() {
@@ -21,20 +22,14 @@
     fetch("https://swiftpixel.com/earbud/api/infoboxes")
       .then(response => response.json())
       .then(infoBoxes => {
-
         infoBoxes.forEach((infoBox, index) => {
-
           let selected = document.querySelector(`#hotspot-${index + 1}`);
-
           const titleElement = document.createElement('h2');
           titleElement.textContent = infoBox.heading;
-
           const textElement = document.createElement('p');
           textElement.textContent = infoBox.description;
-
           const imageElement = document.createElement('img');
           imageElement.src = `images/${infoBox.thumbnail}`;
-
           selected.appendChild(imageElement);
           selected.appendChild(titleElement);
           selected.appendChild(textElement);
@@ -43,25 +38,19 @@
       .catch(error => console.error(error));
   }
 
-  loadInfoBoxes();
-
   function loadMaterialInfo() {
-    materialInfo.forEach(info => (info.innerHTML = spinner)); // Use forEach for multiple elements
+    materialInfo.forEach(info => (info.innerHTML = spinner));
     fetch("https://swiftpixel.com/earbud/api/materials")
       .then(response => response.json())
       .then(materials => {
         materials.forEach(material => {
           const clone = materialTemplate.content.cloneNode(true);
-
           const materialHeading = clone.querySelector('.material-heading');
           materialHeading.textContent = material.heading;
-
           const materialDescription = clone.querySelector('.material-description');
           materialDescription.textContent = material.description;
-
           materialList.appendChild(clone);
         });
-
         materialInfo.forEach(info => {
           info.innerHTML = "";
           info.appendChild(materialList);
@@ -69,8 +58,6 @@
       })
       .catch(error => console.error(error));
   }
-
-  loadMaterialInfo();
 
   function showInfo() {
     let selected = document.querySelector(`#${this.slot}`);
@@ -90,4 +77,7 @@
     hotspot.addEventListener("mouseleave", hideInfo);
   });
 
+  // Load data
+  loadInfoBoxes();
+  loadMaterialInfo();
 })();
